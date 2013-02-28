@@ -31,21 +31,21 @@ void test(void *ptr) {
 	pthread_exit(0);
 }
 
-
 int main() {
 	pthread_t t[10];
 	thread_data td[10];
-	int i;
+	int i, j;
 	
-	for(i = 0; i < 10; i++)
-		td[i].thread_no = i+1;
+	for(j = 0; j < 10; j++) {
+		for(i = 0; i < 10; i++)
+			td[i].thread_no = i+1;
 
-	for(i = 0; i < 10; i++)
-		pthread_create(&t[i], NULL, (void *) &test, (void *) &td[i]);
+		for(i = 0; i < 10; i++)
+			pthread_create(&t[i], NULL, (void *) &test, (void *) &td[i]);
 
-	for(i = 0; i < 10; i++)
-		pthread_join(t[i], NULL);
-
+		for(i = 0; i < 10; i++)
+			pthread_join(t[i], NULL);
+	}
 	
 	exit(0);
 }
