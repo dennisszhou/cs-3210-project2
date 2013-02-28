@@ -24,8 +24,6 @@ void test(void *ptr) {
 	
 	for(i = 0; i < 100; i++)
 		square[i] *= square[i];
-
-	printf("Thread %d\n", data->thread_no);
 	
 	free(square);
 	pthread_exit(0);
@@ -35,17 +33,26 @@ int main() {
 	pthread_t t[10];
 	thread_data td[10];
 	int i, j;
+	struct timespec fa, fb, ta, tb;
+	
+	clock_gettime(CLOCK_REALTIME, &fa);
 	
 	for(j = 0; j < 10; j++) {
 		for(i = 0; i < 10; i++)
 			td[i].thread_no = i+1;
 
-		for(i = 0; i < 10; i++)
+		for(i = 0; i < 10; i++) {
+			clock_gettime(CLOCK_REALTIME, &ta);
 			pthread_create(&t[i], NULL, (void *) &test, (void *) &td[i]);
-
+			clock_gettime(CLOCK_REALTIME, &tb);
+			printf("%.6f\n", (double) tb.tv_nsec - ta.tv_nsec);
+		}
 		for(i = 0; i < 10; i++)
 			pthread_join(t[i], NULL);
 	}
-	
+
+	clock_gettime(CLOCK_REALTIME, &fb);
+	printf("%.6f\n", (double) fb.tv_nsec - fa.tv_nsec);
+
 	exit(0);
 }
