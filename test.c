@@ -68,12 +68,21 @@ int main()
 **/
 void print_message_function ( void *ptr )
 {
+	int c=0;
 	int i;
     thdata *data;
     data = (thdata *) ptr;  /* type cast to a pointer to thdata */
 
     /* do the work */
     printf("Thread %d says %s\n", data->thread_no, data->message);
-
+    int size=100;
+    int *array=malloc(size*sizeof(int));
+    for( c=0;c<size;c++)
+    {
+	/*array[c]=malloc(sizeof(int));*/
+	array[c]=c*c;
+    }
+    free(array);
+    array=NULL;
     pthread_exit(0); /* exit */
 } /* print_message_function ( void *ptr ) */
