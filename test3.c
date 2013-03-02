@@ -40,7 +40,7 @@ int main() {
 	
 	/*clock_gettime(CLOCK_REALTIME, &fa);*/
 	
-	for(j = 0; j < 5; j++) {
+	for(j = 0; j < 10; j++) {
 		for(i = 0; i < 10; i++)
 			td[i].thread_no = i+1;
 
